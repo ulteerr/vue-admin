@@ -38,6 +38,7 @@
 <script lang="ts">
 import {ref, onMounted, computed} from 'vue';
 import axios from 'axios';
+import {Entity} from "@/interfaces/entity";
 import {useStore} from "vuex";
 import Paginator from "@/secure/components/Paginator.vue";
 
@@ -60,7 +61,13 @@ export default {
       lastPage.value = response.data.meta.last_page;
     }
 
+    const del = async (id: number) => {
+      if (confirm('Are you sure you want to delete this record?')) {
+        await axios.delete(`users/${id}`);
 
+        users.value = users.value.filter((e: Entity) => e.id !== id);
+      }
+    }
 
     onMounted(load);
 
