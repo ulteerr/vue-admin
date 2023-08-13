@@ -1,27 +1,29 @@
 <template>
-  <Nav />
+  <Nav/>
 
   <div class="container-fluid">
     <div class="row">
-      <Menu />
+      <Menu/>
 
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-        <router-view v-if="user?.id" />
+        <router-view v-if="user?.id"/>
       </main>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import {onMounted, ref} from 'vue';
 import Menu from "@/secure/components/Menu.vue";
 import Nav from "@/secure/components/Nav.vue";
-import axios from "axios";
+import axios from 'axios';
+
 
 export default {
   name: "Secure",
   components: {
     Menu,
-    Nav,
+    Nav
   },
   setup() {
     const router = useRouter();
@@ -30,39 +32,36 @@ export default {
 
     onMounted(async () => {
       try {
-        const response = await axios.get("user");
+        const response = await axios.get('user');
 
         const u = response.data.data;
 
-        await store.dispatch(
-          "User/setUser",
-          new User(
+        await store.dispatch('User/setUser', new User(
             u.id,
             u.first_name,
             u.last_name,
             u.email,
             u.role,
             u.permissions
-          )
-        );
+        ));
 
         user.value = u;
       } catch (e) {
-        await router.push("/login");
+        await router.push('/login');
       }
     });
 
     return {
-      user,
+      user
     };
-  },
-};
+  }
+}
 </script>
 
 
 <style>
 body {
-  font-size: 0.875rem;
+  font-size: .875rem;
 }
 
 .feather {
@@ -70,6 +69,7 @@ body {
   height: 16px;
   vertical-align: text-bottom;
 }
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -77,7 +77,7 @@ body {
   left: 0;
   z-index: 100;
   padding: 48px 0 0;
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 }
 
 @media (max-width: 767.98px) {
@@ -90,7 +90,7 @@ body {
   position: relative;
   top: 0;
   height: calc(100vh - 48px);
-  padding-top: 0.5rem;
+  padding-top: .5rem;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -122,41 +122,36 @@ body {
 }
 
 .sidebar-heading {
-  font-size: 0.75rem;
+  font-size: .75rem;
   text-transform: uppercase;
 }
-
-/*
- * Navbar
- */
-
 .navbar-brand {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding-top: .75rem;
+  padding-bottom: .75rem;
   font-size: 1rem;
-  background-color: rgba(0, 0, 0, 0.25);
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
 }
 
 .navbar .navbar-toggler {
-  top: 0.25rem;
+  top: .25rem;
   right: 1rem;
 }
 
 .navbar .form-control {
-  padding: 0.75rem 1rem;
+  padding: .75rem 1rem;
   border-width: 0;
   border-radius: 0;
 }
 
 .form-control-dark {
   color: #fff;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .1);
 }
 
 .form-control-dark:focus {
   border-color: transparent;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
 </style>
