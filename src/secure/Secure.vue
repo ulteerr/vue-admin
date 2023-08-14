@@ -17,7 +17,9 @@ import {onMounted, ref} from 'vue';
 import Menu from "@/secure/components/Menu.vue";
 import Nav from "@/secure/components/Nav.vue";
 import axios from 'axios';
-
+import {useRouter} from "vue-router";
+import {useStore} from "vuex";
+import {User} from "@/classes/user";
 
 export default {
   name: "Secure",
@@ -70,13 +72,17 @@ body {
   vertical-align: text-bottom;
 }
 
+/*
+ * Sidebar
+ */
+
 .sidebar {
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 100;
-  padding: 48px 0 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 }
 
@@ -92,7 +98,7 @@ body {
   height: calc(100vh - 48px);
   padding-top: .5rem;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
 
 @supports ((position: -webkit-sticky) or (position: sticky)) {
@@ -125,6 +131,11 @@ body {
   font-size: .75rem;
   text-transform: uppercase;
 }
+
+/*
+ * Navbar
+ */
+
 .navbar-brand {
   padding-top: .75rem;
   padding-bottom: .75rem;

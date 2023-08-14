@@ -1,15 +1,24 @@
 <template>
   <form class="form-signin" @submit.prevent="submit">
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <h1 class="h3 mb-3 font-weight-normal">Please register</h1>
+
+    <label for="first_name" class="sr-only">First Name</label>
+    <input type="text" id="first_name" class="form-control" placeholder="First Name" required v-model="firstName">
+
+    <label for="last_name" class="sr-only">Last Name</label>
+    <input type="text" id="last_name" class="form-control" placeholder="Last Name" required v-model="lastName">
 
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus
-           v-model="email">
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required v-model="email">
 
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required v-model="password">
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <label for="passwordConfirm" class="sr-only">Password Confirm</label>
+    <input type="password" id="passwordConfirm" class="form-control" placeholder="Password Confirm" required
+           v-model="passwordConfirm">
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
   </form>
 </template>
 
@@ -19,25 +28,33 @@ import axios from 'axios';
 import {useRouter} from "vue-router";
 
 export default {
-  name: "Login",
+  name: "Register",
   setup() {
+    const firstName = ref('');
+    const lastName = ref('');
     const email = ref('');
     const password = ref('');
+    const passwordConfirm = ref('');
     const router = useRouter();
 
     const submit = async () => {
-      await axios.post('login', {
+      await axios.post('register', {
+        first_name: firstName.value,
+        last_name: lastName.value,
         email: email.value,
         password: password.value,
-        scope: 'admin'
+        password_confirm: passwordConfirm.value,
       });
 
-      await router.push('/');
+      await router.push('/login');
     }
 
     return {
+      firstName,
+      lastName,
       email,
       password,
+      passwordConfirm,
       submit
     }
   }
